@@ -8,25 +8,32 @@ import 'package:tradexa/Constant.dart';
 import 'package:tradexa/model/movie.dart';
 
 class MovieScreen extends StatefulWidget {
+
   @override
   _MovieScreenState createState() => _MovieScreenState();
 }
 
 class _MovieScreenState extends State<MovieScreen> {
-  late List<Movie> movie;
+    List<Movie> movie=[];
   List<Rating> rating=[];
   @override
   void initState() {
+    getMovie();
     // TODO: implement initState
     super.initState();
-    movie = Provider.of<Movie>(context,listen: false).getMovie();
-  }
-  List<Rating> getRating(){
 
-    List<Rating> rating=[];
-    movie[0].rating.map((e) =>rating.add(e) );
-    print(rating);
-    return  rating;
+  }
+  void getMovie()async{
+    movie = Provider.of<Movie>(context,listen: false).getMovie();
+    print(movie);
+  }
+  List<RatingRow> getRating(){
+    return movie[0].rating.map((e) => RatingRow(rating: e.rating, source: e.source)).toList();
+  }
+  List<Widget> getValue(String a){
+    List<String> value =a.split(",");
+
+    return value.map((e) => authorBtn(author: e,)).toList();
   }
   @override
   Widget build(BuildContext context) {
@@ -129,15 +136,14 @@ class _MovieScreenState extends State<MovieScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Rating",style: TextStyle(color: Constain.darkYellow,fontSize: 20),),
-                        Text(movie[0].imbRating,style: TextStyle(color: Constain.darkYellow,fontSize: 20),)
+                        Text("Rating",style: TextStyle(color: Constain.lightYellow,fontSize: 20),),
+                        Text(movie[0].imbRating,style: TextStyle(color: Constain.lightYellow,fontSize: 20),)
                       ],
                     ),
-
-                    RatingRow(source: "Internet Movie\nDatabase",rating: "8.4/10",),
-                    RatingRow(source: "Rotten Tomatoes",rating: "94%",),
-                    RatingRow(source: "Metacritic",rating: "78/100",)
-                  ],
+                    Column(
+                      children:getRating(),
+                    ),
+                    ],
                 ),
               ),
               Container(
@@ -162,7 +168,7 @@ class _MovieScreenState extends State<MovieScreen> {
                            SizedBox(
                              width: 20,
                            ),
-                           Text("2019",style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                           Text(movie[0].year,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
                         ],
                       ),
                     ),
@@ -179,7 +185,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text("United State",style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Text(movie[0].country,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
                         ],
                       ),
                     ),
@@ -196,7 +202,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text("182 Min",style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Text(movie[0].runtime,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
                         ],
                       ),
                     ),
@@ -213,7 +219,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text("English, Japanese\nGermany",style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Text(movie[0].language,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
                         ],
                       ),
                     ),
@@ -237,7 +243,7 @@ class _MovieScreenState extends State<MovieScreen> {
                    SizedBox(
                      height: 10,
                    ),
-                   Text("\"After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.\"",style: TextStyle(
+                   Text("\""+movie[0].plot+"\"",style: TextStyle(
                    color: Colors.white.withOpacity(0.6),
                        fontSize: 17
                    ),),
@@ -252,17 +258,8 @@ class _MovieScreenState extends State<MovieScreen> {
                      height: 10,
                    ),
                    Wrap(
-                     children: [
-                       Container(
-                         padding: EdgeInsets.all(10),
-                         margin: EdgeInsets.all(5.0),
-                         decoration: BoxDecoration(
-                             color: Constain.white.withOpacity(0.25),
-                             borderRadius: BorderRadius.all(Radius.circular(10))
-                         ),
-                         child: Text("Karan Patel", style: TextStyle(color: Colors.white.withOpacity(0.55)),),
-                       ),
-                     ],
+                     children:
+                     getValue(movie[0].director),
                    ),
                    SizedBox(
                      height: 10,
@@ -275,17 +272,8 @@ class _MovieScreenState extends State<MovieScreen> {
                      height: 10,
                    ),
                    Wrap(
-                     children: [
-                       Container(
-                         padding: EdgeInsets.all(10),
-                         margin: EdgeInsets.all(5.0),
-                         decoration: BoxDecoration(
-                             color: Constain.white.withOpacity(0.25),
-                             borderRadius: BorderRadius.all(Radius.circular(10))
-                         ),
-                         child: Text("Karan Patel", style: TextStyle(color: Colors.white.withOpacity(0.55)),),
-                       ),
-                     ],
+                     children:
+                     getValue(movie[0].actor),
                    ),
                    SizedBox(
                      height: 10,
@@ -298,17 +286,8 @@ class _MovieScreenState extends State<MovieScreen> {
                      height: 10,
                    ),
                    Wrap(
-                     children: [
-                       Container(
-                         padding: EdgeInsets.all(10),
-                         margin: EdgeInsets.all(5.0),
-                         decoration: BoxDecoration(
-                             color: Constain.white.withOpacity(0.25),
-                             borderRadius: BorderRadius.all(Radius.circular(10))
-                         ),
-                         child: Text("Karan Patel", style: TextStyle(color: Colors.white.withOpacity(0.55)),),
-                       ),
-                     ],
+                     children:
+                       getValue(movie[0].writer),
                    )
                  ],
                ),
@@ -317,6 +296,23 @@ class _MovieScreenState extends State<MovieScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class authorBtn extends StatelessWidget {
+String author;
+authorBtn({required this.author});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+          color: Constain.white.withOpacity(0.25),
+          borderRadius: BorderRadius.all(Radius.circular(10))
+      ),
+      child: Text(author, style: TextStyle(color: Colors.white.withOpacity(0.55)),),
     );
   }
 }

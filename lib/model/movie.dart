@@ -19,15 +19,12 @@ class Movie extends ChangeNotifier{
   Movie({required this.rating,required this.year,required this.runtime,required this.genre, required this.director,required this.writer,required this.actor, required this.language,required this.country,required this.plot,required this.poster,required this.title, required this.imbRating});
   List<Movie> movieList =[];
   void addMovie(Movie movie){
+    movieList.clear();
     movieList.add(movie);
     notifyListeners();
   }
-  void clearMovie(){
-    movieList.clear();
-    notifyListeners();
-  }
+
   List<Movie> getMovie(){
-    movieList=movieList;
     notifyListeners();
     return movieList;
 

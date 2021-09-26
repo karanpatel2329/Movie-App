@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tradexa',
       theme: ThemeData(
+        fontFamily: 'Montserrat',
         primarySwatch: Colors.blue,
       ),
       home: HomePage(),
@@ -147,14 +148,6 @@ class _HomePageState extends State<HomePage> {
                             poster: movie[0].poster,
                           )
                         : Container(),
-                    // MovieItem(),
-                    // MovieItem(),
-                    // MovieItem(),
-                    FlatButton(
-                        onPressed: () {
-                          print(movie[0].title);
-                        },
-                        child: Text("Click HEre"))
                   ],
                 ),
               ),
