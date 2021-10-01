@@ -11,6 +11,7 @@ import 'controller/searchAPI.dart';
 import 'model/movie.dart';
 
 void main() {
+  Provider.debugCheckInvalidValueType = null;
   runApp(Provider(
     create: (_) => Movie(
         rating: [],
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
             image: AssetImage("assets/bg.png"),
           )),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 padding: EdgeInsets.all(5),
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   onSubmitted: (value) async {
                     print(searchQuery);
                     var res = await getMovie(searchQuery);
-                    Provider.of<Movie>(context, listen: false).addMovie(res);
+                    movie.add(res);
                     setState(() {
                       isSearch = true;
                     });
@@ -137,16 +138,16 @@ class _HomePageState extends State<HomePage> {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.84,
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: ListView(
                   children: [
                     isSearch
-                        ? MovieItem(
-                            title: movie[0].title,
-                            runtime: movie[0].runtime,
-                            rating: movie[0].imbRating,
-                            poster: movie[0].poster,
-                          )
+                        ? Consumer<Movie>(builder: (_,movies,__)=>MovieItem(
+                      title: movies.movieList[0].title,
+                      runtime: movies.movieList[0].runtime,
+                      rating: movies.movieList[0].imbRating,
+                      poster: movies.movieList[0].poster,
+                    ),)
                         : Container(),
                   ],
                 ),

@@ -37,6 +37,7 @@ class _MovieScreenState extends State<MovieScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    //movie = Provider.of<Movie>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -55,12 +56,12 @@ class _MovieScreenState extends State<MovieScreen> {
                       ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                     },
                     blendMode: BlendMode.dstIn,
-                    child: Image.network(
-                      movie[0].poster,
+                    child: Consumer<Movie>(builder: (_,movies,__)=> Image.network(
+                      movies.movieList[0].poster,
                       height: 400,
                       width: double.maxFinite,
                       fit: BoxFit.fitWidth,
-                    ),
+                    ),),
                   ),
                   Container(
                     height: 400,
@@ -107,8 +108,10 @@ class _MovieScreenState extends State<MovieScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(movie[0].title,style: TextStyle(color: Colors.white, fontSize: 30,fontWeight: FontWeight.w400),),
-                            Text(movie[0].genre,style: TextStyle(color: Colors.grey, fontSize: 18,),)
+                            Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].title,style: TextStyle(color: Colors.white, fontSize: 30,fontWeight: FontWeight.w400),),),
+                            Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].genre,style: TextStyle(color: Colors.grey, fontSize: 18,),))
+
+
                           ],
                         )
                       ],
@@ -137,7 +140,7 @@ class _MovieScreenState extends State<MovieScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Rating",style: TextStyle(color: Constain.lightYellow,fontSize: 20),),
-                        Text(movie[0].imbRating,style: TextStyle(color: Constain.lightYellow,fontSize: 20),)
+                        Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].imbRating,style: TextStyle(color: Constain.lightYellow,fontSize: 20),),)
                       ],
                     ),
                     Column(
@@ -168,7 +171,7 @@ class _MovieScreenState extends State<MovieScreen> {
                            SizedBox(
                              width: 20,
                            ),
-                           Text(movie[0].year,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].year,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),),)
                         ],
                       ),
                     ),
@@ -185,7 +188,8 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(movie[0].country,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].country,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),))
+
                         ],
                       ),
                     ),
@@ -202,7 +206,8 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(movie[0].runtime,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+                          Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].runtime,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),),)
+
                         ],
                       ),
                     ),
@@ -219,7 +224,9 @@ class _MovieScreenState extends State<MovieScreen> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(movie[0].language,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),)
+
+
+                          Container(width: MediaQuery.of(context).size.width*0.7, child: Consumer<Movie>(builder: (_,movies,__)=>Text(movies.movieList[0].language,style: TextStyle(color: Constain.white.withOpacity(0.6),fontSize: 20),),))
                         ],
                       ),
                     ),
@@ -243,10 +250,10 @@ class _MovieScreenState extends State<MovieScreen> {
                    SizedBox(
                      height: 10,
                    ),
-                   Text("\""+movie[0].plot+"\"",style: TextStyle(
-                   color: Colors.white.withOpacity(0.6),
+                   Consumer<Movie>(builder: (_,movies,__)=>Text("\""+movies.movieList[0].plot+"\"",style: TextStyle(
+                       color: Colors.white.withOpacity(0.6),
                        fontSize: 17
-                   ),),
+                   ),),),
                    SizedBox(
                      height: 10,
                    ),
